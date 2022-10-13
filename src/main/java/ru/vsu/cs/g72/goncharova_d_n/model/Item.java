@@ -31,6 +31,26 @@ public class Item {
         return level;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

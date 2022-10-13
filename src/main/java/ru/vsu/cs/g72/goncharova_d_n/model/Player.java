@@ -1,15 +1,15 @@
 package ru.vsu.cs.g72.goncharova_d_n.model;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Player {
 
     private int playerId;
     private String nickname;
-    private ArrayList<Progress> progresses;
-    private ArrayList<Currency> currencies;
-    private ArrayList<Item> items;
+    private List<Progress> progresses;
+    private List<Currency> currencies;
+    private List<Item> items;
 
 
     public int getPlayerId() {
@@ -20,16 +20,36 @@ public class Player {
         return nickname;
     }
 
-    public ArrayList<Progress> getProgresses() {
+    public List<Progress> getProgresses() {
         return progresses;
     }
 
-    public ArrayList<Currency> getCurrencies() {
+    public List<Currency> getCurrencies() {
         return currencies;
     }
 
-    public ArrayList<Item> getItems() {
+    public List<Item> getItems() {
         return items;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setProgresses(List<Progress> progresses) {
+        this.progresses = progresses;
+    }
+
+    public void setCurrencies(List<Currency> currencies) {
+        this.currencies = currencies;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
