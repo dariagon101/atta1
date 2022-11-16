@@ -1,7 +1,10 @@
 package ru.vsu.cs.g72.goncharova_d_n.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Player {
 
@@ -34,6 +37,38 @@ public class Player {
 
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
+    }
+
+
+    private Map<Integer, Currency> getMapCurrency() {
+        return currencies.stream().collect(Collectors.toMap(Currency::getId, Function.identity()));
+    }
+
+    private Map<Integer, Item> getMapItem() {
+        return items.stream().collect(Collectors.toMap(Item::getId, Function.identity()));
+    }
+
+    private Map<Integer, Progress> getMapProgress() {
+        return progresses.stream().collect(Collectors.toMap(Progress::getId, Function.identity()));
+    }
+
+    public Currency getCurrencyById(int id) {
+        Map<Integer, Currency> currencyMap = getMapCurrency();
+
+        return currencyMap.get(id);
+    }
+
+    public Progress getProgressById(int id) {
+        Map<Integer, Progress> progressMap = getMapProgress();
+
+        return progressMap.get(id);
+
+    }
+
+    public Item getItemById(int id) {
+        Map<Integer, Item> itemMap = getMapItem();
+
+        return itemMap.get(id);
     }
 
     public void setNickname(String nickname) {

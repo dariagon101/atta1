@@ -1,4 +1,4 @@
-package ru.vsu.cs.g72.goncharova_d_n.service;
+package ru.vsu.cs.g72.goncharova_d_n.service.bd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
