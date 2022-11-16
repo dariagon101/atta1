@@ -13,6 +13,10 @@ public class ConsoleService {
     private Cache cache = new Cache();
 
 
+    public Cache getCache() {
+        return cache;
+    }
+
     public void update(int id) {
         Player player = cache.findPlayerById(id);
         System.out.println("Чтобы изменить имя введите -n, прогресс - -p, валюту - -c, вещи -i, чтобы закончить - -e");
@@ -26,6 +30,7 @@ public class ConsoleService {
                     String name = scanner.next();
                     player.setNickname(name);
                     cache.getCache().put(id, player);
+                    break;
                 case "-p":
                     System.out.println("Введите количество прогрессов, которые хотите изменить: ");
                     int n = scanner.nextInt();
@@ -37,6 +42,7 @@ public class ConsoleService {
                         player.getProgresses().remove(progress);
                         player.getProgresses().add(progNew);
                     }
+                    break;
                 case "-c":
                     System.out.println("Введите количество валют, которые хотите изменить: ");
                     int k = scanner.nextInt();
@@ -48,6 +54,7 @@ public class ConsoleService {
                         player.getCurrencies().remove(currency);
                         player.getCurrencies().add(currNew);
                     }
+                    break;
                 case "-i":
                     System.out.println("Введите количество вещей, которые хотите изменить: ");
                     int l = scanner.nextInt();
@@ -59,6 +66,7 @@ public class ConsoleService {
                         player.getItems().remove(item);
                         player.getItems().add(itemNew);
                     }
+                    break;
 
             }
             System.out.println("Введите следующую команду");
@@ -76,6 +84,7 @@ public class ConsoleService {
             switch (parameter) {
                 case "-pl":
                     cache.getCache().remove(id);
+                    break;
 
                 case "-p":
                     System.out.println("Введите количество прогрессов, которые хотите удалить: ");
@@ -89,6 +98,7 @@ public class ConsoleService {
                         Progress progress = player.getProgressById(progressId);
                         player.getProgresses().remove(progress);
                     }
+                    break;
 
                 case "-c":
                     System.out.println("Введите количество валют, которые хотите удалить: ");
@@ -102,6 +112,7 @@ public class ConsoleService {
                         Currency currency = player.getCurrencyById(currencyId);
                         player.getCurrencies().remove(currency);
                     }
+                    break;
 
                 case "-i":
                     System.out.println("Введите количество вещей, которые хотите изменить: ");
@@ -115,6 +126,7 @@ public class ConsoleService {
                         Item item = player.getItemById(itemId);
                         player.getItems().remove(item);
                     }
+                    break;
 
             }
             System.out.println("Введите следующую команду");
@@ -135,6 +147,7 @@ public class ConsoleService {
             switch (parameter) {
                 case "-pl":
                     System.out.println(player);
+                    break;
 
                 case "-p":
                     System.out.println("Введите количество прогрессов, которые хотите посмотреть: ");
@@ -147,6 +160,7 @@ public class ConsoleService {
                         int progressId = scanner.nextInt();
                         System.out.println(player.getProgressById(progressId));
                     }
+                    break;
 
                 case "-c":
                     System.out.println("Введите количество валют, которые хотите посмотреть: ");
@@ -159,6 +173,7 @@ public class ConsoleService {
                         int currencyId = scanner.nextInt();
                         System.out.println(player.getCurrencyById(currencyId));
                     }
+                    break;
 
                 case "-i":
                     System.out.println("Введите количество вещей, которые хотите посмотреть: ");
@@ -171,6 +186,7 @@ public class ConsoleService {
                         int itemId = scanner.nextInt();
                         System.out.println(player.getItemById(itemId));
                     }
+                    break;
 
             }
             System.out.println("Введите следующую команду");
@@ -192,18 +208,22 @@ public class ConsoleService {
                     String name = scanner.next();
                     player.setPlayerId(id);
                     player.setNickname(name);
+                    break;
 
                 case "-p":
                     Player player1 = cache.findPlayerById(id);
                     createProgresses(player1);
+                    break;
 
                 case "-c":
                     Player player2 = cache.findPlayerById(id);
                     createCurrencies(player2);
+                    break;
 
                 case "-i":
                     Player player3 = cache.findPlayerById(id);
                     createItems(player3);
+                    break;
 
             }
             System.out.println("Введите следующую команду");
@@ -297,14 +317,17 @@ public class ConsoleService {
                     System.out.println("Введите ресурс");
                     int resourceId = scanner.nextInt();
                     currency.setResourceId(resourceId);
+                    break;
                 case "-n":
                     System.out.println("Введите имя");
                     String name = scanner.next();
                     currency.setName(name);
+                    break;
                 case "-c":
                     System.out.println("Введите количество");
                     int count = scanner.nextInt();
                     currency.setCount(count);
+                    break;
             }
             System.out.println("Введите следующую команду");
             parameter = scanner.next();
@@ -322,14 +345,17 @@ public class ConsoleService {
                     System.out.println("Введите ресурс");
                     int resourceId = scanner.nextInt();
                     item.setResourceId(resourceId);
+                    break;
                 case "-l":
                     System.out.println("Введите уровень");
                     int level = scanner.nextInt();
                     item.setLevel(level);
+                    break;
                 case "-c":
                     System.out.println("Введите количество");
                     int count = scanner.nextInt();
                     item.setCount(count);
+                    break;
             }
             System.out.println("Введите следующую команду");
             parameter = scanner.next();
@@ -347,6 +373,7 @@ public class ConsoleService {
                     System.out.println("Введите ресурс");
                     int resourceId = scanner.nextInt();
                     progress.setResourceId(resourceId);
+                    break;
                 case "-s":
                     System.out.println("Введите счет");
                     int score = scanner.nextInt();
@@ -354,10 +381,12 @@ public class ConsoleService {
                         progress.setScore(score);
                     else
                         System.out.println("Счет не может быть больше максимального");
+                    break;
                 case "-m":
                     System.out.println("Введите максимальный счет");
                     int maxScore = scanner.nextInt();
                     progress.setMaxScore(maxScore);
+                    break;
             }
             System.out.println("Введите следующую команду");
             parameter = scanner.next();

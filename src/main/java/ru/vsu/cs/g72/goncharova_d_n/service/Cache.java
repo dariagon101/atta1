@@ -19,6 +19,7 @@ public class Cache {
     private static ObjectMapper objectMapper = new ObjectMapper();
     private final Map<Integer, Player> cache;
 
+
     public Cache() {
         this.cache = fromJson()
                 .stream()
@@ -28,7 +29,7 @@ public class Cache {
 
     //чтение файла из json
 
-    public List<Player> fromJson()  {
+    public List<Player> fromJson() {
         try {
             return objectMapper.readValue(new FileReader("players.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Player.class));
         } catch (IOException e) {

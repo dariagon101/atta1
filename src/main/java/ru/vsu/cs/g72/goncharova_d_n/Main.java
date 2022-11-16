@@ -21,7 +21,8 @@ public class Main {
     private static CurrencyService currencyService = new CurrencyService();
     private static ProgressService progressService = new ProgressService();
     private static ItemService itemService = new ItemService();
-    private static Cache cache = new Cache();
+    public static ConsoleService consoleService = new ConsoleService();
+    private static Cache cache = consoleService.getCache();
 
 
     public static List<Player> playerList() throws IOException {
@@ -49,16 +50,8 @@ public class Main {
     public static void main(String[] args) throws IOException, SQLException {
         Player player = cache.findPlayerById(10000);
         System.out.println(player);
-        ConsoleService consoleService = new ConsoleService();
         consoleService.delete(10000);
         Player player1 = cache.findPlayerById(10000);
         System.out.println(player1);
-
-
-
-
-
-
-
     }
 }
