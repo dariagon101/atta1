@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ItemService {
 
-    private static Connection connection = DataBaseService.connect();
+    private static Connection connection = DataBaseConnection.connect();
 
 
     public void save(Item item) {
@@ -28,10 +28,11 @@ public class ItemService {
     }
 
 
-    public void delete(int id) {
-        String sql = "delete from items where id=?";
+    public void delete(Item item) {
+        String sql = "delete from items where id=? and player_id=?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
-            stm.setInt(1, id);
+            stm.setInt(1, item.getId());
+            stm.setInt(2, item.getPlayerId());
             stm.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

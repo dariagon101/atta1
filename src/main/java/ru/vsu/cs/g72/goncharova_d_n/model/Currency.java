@@ -70,12 +70,13 @@ public class Currency {
 
     @Override
     public String toString() {
-        return "Currencies{" +
-                "id=" + id +
-                ", playerId=" + playerId +
-                ", resourceId=" + resourceId +
-                ", name='" + name + '\'' +
-                ", count=" + count +
-                '}';
+        return " {" + "\n" +
+                " \"id\" : " + id +
+                ", \n \"playerId\" : " + playerId +
+                ", \n \"resourceId\" : " + resourceId +
+                ", \n \"name\" : " + name +
+                ", \n \"count\" : " + count + "\n" +
+                "} ";
+
     }
 }

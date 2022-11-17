@@ -70,12 +70,13 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Items{" +
-                "id=" + id +
-                ", playerId=" + playerId +
-                ", resourceId=" + resourceId +
-                ", count=" + count +
-                ", level=" + level +
-                '}';
+        return " {" + "\n" +
+                "\"id\" : " + id +
+                ", \n \"playerId\" : " + playerId +
+                ", \n \"resourceId\" : " + resourceId +
+                ", \n \"count\" : " + count +
+                ", \n \"level\" : " + level + "\n" +
+                "} ";
+
     }
 }

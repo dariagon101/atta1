@@ -106,12 +106,12 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Players{" +
-                "playerId=" + playerId +
-                ", nickname='" + nickname + '\'' +
-                ", progresses=" + progresses +
-                ", currencies=" + currencies +
-                ", items=" + items +
-                '}';
+        return " {" + "\n" +
+                "\"playerId\" : " + playerId +
+                ", \n\"nickname\" : " + nickname +
+                ", \n\"progresses\" : " + progresses +
+                ", \n\"currencies\" : " + currencies +
+                ", \n\"items\" : " + items + "\n" +
+                "} ";
     }
 }

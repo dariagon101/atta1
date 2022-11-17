@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ProgressService {
 
-    private static Connection connection = DataBaseService.connect();
+    private static Connection connection = DataBaseConnection.connect();
 
 
     public void save(Progress progress) {
@@ -27,10 +27,11 @@ public class ProgressService {
     }
 
 
-    public void delete (int id) {
-        String sql = "delete from progresses where id=?";
+    public void delete (Progress progress) {
+        String sql = "delete from progresses where id=? and player_id=?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
-            stm.setInt(1, id);
+            stm.setInt(1, progress.getId());
+            stm.setInt(2, progress.getPlayerId());
             stm.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

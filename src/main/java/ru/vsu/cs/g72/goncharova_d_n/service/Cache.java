@@ -4,11 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.vsu.cs.g72.goncharova_d_n.model.Player;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -34,6 +32,16 @@ public class Cache {
             return objectMapper.readValue(new FileReader("players.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Player.class));
         } catch (IOException e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    public void writeInJson() {
+        try {
+            List<Player> players = new ArrayList<>(cache.values());
+            objectMapper.writeValue(new FileWriter("players.json"), players);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -4,6 +4,10 @@ import ru.vsu.cs.g72.goncharova_d_n.model.Currency;
 import ru.vsu.cs.g72.goncharova_d_n.model.Item;
 import ru.vsu.cs.g72.goncharova_d_n.model.Player;
 import ru.vsu.cs.g72.goncharova_d_n.model.Progress;
+import ru.vsu.cs.g72.goncharova_d_n.service.bd.CurrencyService;
+import ru.vsu.cs.g72.goncharova_d_n.service.bd.ItemService;
+import ru.vsu.cs.g72.goncharova_d_n.service.bd.PlayerService;
+import ru.vsu.cs.g72.goncharova_d_n.service.bd.ProgressService;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -11,10 +15,18 @@ import java.util.Scanner;
 public class ConsoleService {
     private Scanner scanner = new Scanner(System.in);
     private Cache cache = new Cache();
+    private ProgressService progressService = new ProgressService();
+    private ItemService itemService = new ItemService();
+    private PlayerService playerService = new PlayerService();
+    private CurrencyService currencyService = new CurrencyService();
 
 
     public Cache getCache() {
         return cache;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
     }
 
     public void update(int id) {
@@ -30,6 +42,7 @@ public class ConsoleService {
                     String name = scanner.next();
                     player.setNickname(name);
                     cache.getCache().put(id, player);
+                    playerService.update(player);
                     break;
                 case "-p":
                     System.out.println("Введите количество прогрессов, которые хотите изменить: ");
@@ -41,6 +54,7 @@ public class ConsoleService {
                         Progress progNew = updateProgress(progress);
                         player.getProgresses().remove(progress);
                         player.getProgresses().add(progNew);
+                        progressService.update(progNew);
                     }
                     break;
                 case "-c":
@@ -53,6 +67,7 @@ public class ConsoleService {
                         Currency currNew = updateCurrency(currency);
                         player.getCurrencies().remove(currency);
                         player.getCurrencies().add(currNew);
+                        currencyService.update(currNew);
                     }
                     break;
                 case "-i":
@@ -65,6 +80,7 @@ public class ConsoleService {
                         Item itemNew = updateItem(item);
                         player.getItems().remove(item);
                         player.getItems().add(itemNew);
+                        itemService.update(itemNew);
                     }
                     break;
 
@@ -84,6 +100,7 @@ public class ConsoleService {
             switch (parameter) {
                 case "-pl":
                     cache.getCache().remove(id);
+                    playerService.delete(id);
                     break;
 
                 case "-p":
@@ -97,7 +114,9 @@ public class ConsoleService {
                         int progressId = scanner.nextInt();
                         Progress progress = player.getProgressById(progressId);
                         player.getProgresses().remove(progress);
+                        progressService.delete(progress);
                     }
+
                     break;
 
                 case "-c":
@@ -111,6 +130,7 @@ public class ConsoleService {
                         int currencyId = scanner.nextInt();
                         Currency currency = player.getCurrencyById(currencyId);
                         player.getCurrencies().remove(currency);
+                        currencyService.delete(currency);
                     }
                     break;
 
@@ -125,6 +145,7 @@ public class ConsoleService {
                         int itemId = scanner.nextInt();
                         Item item = player.getItemById(itemId);
                         player.getItems().remove(item);
+                        itemService.delete(item);
                     }
                     break;
 
@@ -196,7 +217,7 @@ public class ConsoleService {
 
     }
 
-    public void create (int id) {
+    public void create(int id) {
         System.out.println("Чтобы хотите создать: игрока введите -pl, прогресс у игрока - -p, валюту - -c, вещи -i, чтобы закончить - -e");
         String parameter = scanner.next();
 
@@ -208,21 +229,43 @@ public class ConsoleService {
                     String name = scanner.next();
                     player.setPlayerId(id);
                     player.setNickname(name);
+                    playerService.save(player);
                     break;
 
                 case "-p":
+                    System.out.print("Сколько прогрессов хотите добавить у игрока?: ");
+                    int n = scanner.nextInt();
                     Player player1 = cache.findPlayerById(id);
-                    createProgresses(player1);
+                    for (int i = 0; i < n; i++) {
+                        Progress progress = createProgresses(player1);
+
+                        player1.getProgresses().add(progress);
+                        progressService.save(progress);
+                    }
                     break;
 
                 case "-c":
+                    System.out.print("Сколько валют хотите добавить у игрока?: ");
+                    int k = scanner.nextInt();
                     Player player2 = cache.findPlayerById(id);
-                    createCurrencies(player2);
+                    for (int i = 0; i < k; i++) {
+                        Currency currency = createCurrencies(player2);
+
+                        player2.getCurrencies().add(currency);
+                        currencyService.save(currency);
+                    }
                     break;
 
                 case "-i":
+                    System.out.print("Сколько вещей хотите добавить у игрока?: ");
+                    int l = scanner.nextInt();
                     Player player3 = cache.findPlayerById(id);
-                    createItems(player3);
+                    for (int i = 0; i < l; i++) {
+                        Item item = createItems(player3);
+
+                        player3.getItems().add(item);
+                        itemService.save(item);
+                    }
                     break;
 
             }
@@ -232,80 +275,71 @@ public class ConsoleService {
         }
     }
 
-    private void createProgresses(Player player) {
-        System.out.print("Сколько прогрессов хотите добавить у игрока?: ");
-        int n = scanner.nextInt();
-        for (int i = 0; i < n; i++) {
-            System.out.println("-------------------");
-            Progress progress = new Progress();
-            System.out.print("id: ");
-            int id = scanner.nextInt();
-            progress.setId(id);
-            System.out.print("resourceId: ");
-            int resourceId = scanner.nextInt();
-            progress.setResourceId(resourceId);
-            System.out.print("score: ");
-            int score = scanner.nextInt();
-            progress.setScore(score);
-            System.out.print("maxScore: ");
-            int maxScore = scanner.nextInt();
-            progress.setMaxScore(maxScore);
+    private Progress createProgresses(Player player) {
 
-            progress.setPlayerId(player.getPlayerId());
+        System.out.println("-------------------");
+        Progress progress = new Progress();
+        System.out.print("id: ");
+        int id = scanner.nextInt();
+        progress.setId(id);
+        System.out.print("resourceId: ");
+        int resourceId = scanner.nextInt();
+        progress.setResourceId(resourceId);
+        System.out.print("score: ");
+        int score = scanner.nextInt();
+        progress.setScore(score);
+        System.out.print("maxScore: ");
+        int maxScore = scanner.nextInt();
+        progress.setMaxScore(maxScore);
 
-            player.getProgresses().add(progress);
-        }
+        progress.setPlayerId(player.getPlayerId());
+        return progress;
+
     }
 
 
-    private void createCurrencies(Player player) {
-        System.out.print("Сколько валют хотите добавить у игрока?: ");
-        int n = scanner.nextInt();
-        for (int i = 0; i < n; i++) {
-            System.out.println("-------------------");
-            Currency currency = new Currency();
-            System.out.print("id: ");
-            int id = scanner.nextInt();
-            currency.setId(id);
-            System.out.print("resourceId: ");
-            int resourceId = scanner.nextInt();
-            currency.setResourceId(resourceId);
-            System.out.print("name: ");
-            String name = scanner.next();
-            currency.setName(name);
-            System.out.print("count: ");
-            int count = scanner.nextInt();
-            currency.setCount(count);
+    private Currency createCurrencies(Player player) {
 
-            currency.setPlayerId(player.getPlayerId());
+        System.out.println("-------------------");
+        Currency currency = new Currency();
+        System.out.print("id: ");
+        int id = scanner.nextInt();
+        currency.setId(id);
+        System.out.print("resourceId: ");
+        int resourceId = scanner.nextInt();
+        currency.setResourceId(resourceId);
+        System.out.print("name: ");
+        String name = scanner.next();
+        currency.setName(name);
+        System.out.print("count: ");
+        int count = scanner.nextInt();
+        currency.setCount(count);
 
-            player.getCurrencies().add(currency);
-        }
+        currency.setPlayerId(player.getPlayerId());
+
+        return currency;
     }
 
-    private void createItems(Player player) {
-        System.out.print("Сколько вещей хотите добавить у игрока?: ");
-        int n = scanner.nextInt();
-        for (int i = 0; i < n; i++) {
-            System.out.println("-------------------");
-            Item item = new Item();
-            System.out.print("id: ");
-            int id = scanner.nextInt();
-            item.setId(id);
-            System.out.print("resourceId: ");
-            int resourceId = scanner.nextInt();
-            item.setResourceId(resourceId);
-            System.out.print("level: ");
-            int level = scanner.nextInt();
-            item.setLevel(level);
-            System.out.print("count: ");
-            int count = scanner.nextInt();
-            item.setCount(count);
+    private Item createItems(Player player) {
 
-            item.setPlayerId(player.getPlayerId());
+        System.out.println("-------------------");
+        Item item = new Item();
+        System.out.print("id: ");
+        int id = scanner.nextInt();
+        item.setId(id);
+        System.out.print("resourceId: ");
+        int resourceId = scanner.nextInt();
+        item.setResourceId(resourceId);
+        System.out.print("level: ");
+        int level = scanner.nextInt();
+        item.setLevel(level);
+        System.out.print("count: ");
+        int count = scanner.nextInt();
+        item.setCount(count);
 
-            player.getItems().add(item);
-        }
+        item.setPlayerId(player.getPlayerId());
+
+        return item;
     }
 
     private Currency updateCurrency(Currency currency) {
@@ -329,7 +363,7 @@ public class ConsoleService {
                     currency.setCount(count);
                     break;
             }
-            System.out.println("Введите следующую команду");
+            System.out.println("Введите следующую команду для валют");
             parameter = scanner.next();
         }
         return currency;
@@ -357,7 +391,7 @@ public class ConsoleService {
                     item.setCount(count);
                     break;
             }
-            System.out.println("Введите следующую команду");
+            System.out.println("Введите следующую команду для вещей");
             parameter = scanner.next();
         }
         return item;
@@ -388,7 +422,7 @@ public class ConsoleService {
                     progress.setMaxScore(maxScore);
                     break;
             }
-            System.out.println("Введите следующую команду");
+            System.out.println("Введите следующую команду для прогрессов");
             parameter = scanner.next();
         }
         return progress;

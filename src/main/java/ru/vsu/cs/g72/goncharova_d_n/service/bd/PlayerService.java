@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class PlayerService {
 
-    private static Connection connection = DataBaseService.connect();
+    private static Connection connection = DataBaseConnection.connect();
 
     //добавление игрока в БД
 

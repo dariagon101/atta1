@@ -70,12 +70,13 @@ public class Progress {
 
     @Override
     public String toString() {
-        return "Progresses{" +
-                "id=" + id +
-                ", playerId=" + playerId +
-                ", resourceId=" + resourceId +
-                ", score=" + score +
-                ", maxScore=" + maxScore +
-                '}';
+        return " {" + "\n" +
+                " \"id\" : " + id +
+                ", \n \"playerId\" : " + playerId +
+                ", \n \"resourceId\" : " + resourceId +
+                ", \n \"score\" : " + score +
+                ", \n \"maxScore\" : " + maxScore + "\n" +
+                "} ";
+
     }
 }

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class CurrencyService {
 
-    private static Connection connection = DataBaseService.connect();
+    private static Connection connection = DataBaseConnection.connect();
 
 
     public void save(Currency currency) {
@@ -27,10 +27,11 @@ public class CurrencyService {
     }
 
 
-    public void delete (int id) {
-        String sql = "delete from currencies where id=?";
+    public void delete (Currency currency) {
+        String sql = "delete from currencies where id=? and player_id=?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
-            stm.setInt(1, id);
+            stm.setInt(1, currency.getId());
+            stm.setInt(2, currency.getPlayerId());
             stm.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
